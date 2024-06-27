@@ -1,7 +1,3 @@
-Let's create a comprehensive README file tailored to the generic framework you have built. This README will provide a clear explanation of the framework, its components, how to set it up, and how it meets the project requirements.
-
----
-
 # MyFramework
 
 MyFramework is a simple web framework designed to facilitate CRUD operations and AJAX-based interactions with a MongoDB database using Node.js and Express. It provides an easy-to-use structure for creating web applications with a clear separation of concerns between controllers, models, and views.
