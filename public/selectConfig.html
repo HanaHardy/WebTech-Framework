@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Configuration</title>
+</head>
+<body>
+<h1>Select Configuration File</h1>
+<input type="file" id="configFile" />
+<button id="submitConfig">Submit</button>
+<script>
+    document.getElementById('submitConfig').addEventListener('click', () => {
+        const fileInput = document.getElementById('configFile');
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const config = JSON.parse(event.target.result);
+                const connectionString = `mongodb://${config.host}:${config.port}/${config.database}`;
+                console.log(`Connection String: ${connectionString}`);
+                fetch('/api/set-config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Configuration set successfully!');
+                        } else {
+                            alert('Error setting configuration.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            };
+            reader.readAsText(file);
+        } else {
+            alert('Please select a configuration file.');
+        }
+    });
+</script>
+</body>
+</html>
